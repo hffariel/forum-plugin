@@ -25,15 +25,11 @@ after_initialize do
   end
 
   add_to_class(:topic, :get_sr_topic_fields) do
-    if custom_fields['sr_topic_fields']
-      custom_fields['sr_topic_fields']
-    else
-      nil
-    end
+    self.custom_fields['sr_topic_fields']
   end
 
   add_to_serializer(:topic_view, :sr_topic_fields) do
-    topic.get_sr_topic_fields
+    object.topic.get_sr_topic_fields
   end
 
   add_to_serializer(:listable_topic, :sr_topic_fields) do
