@@ -25,19 +25,19 @@ after_initialize do
   end
 
   add_to_class(:topic, :sr_priority?) do 
-    custom_fields['sr_priority'] == 'p0'
+    custom_fields['sr_priority'] == ''
   end
 
   add_to_serializer(:topic_view, :sr_priority) do
-    topic.sr_priority?
+    topic.sr_priority
   end
 
   add_to_serializer(:listable_topic, :sr_priority) do
-    object.sr_priority?
+    object.sr_priority
   end
 
   add_to_serializer(:topic_list_item, :sr_priority) do
-    object.sr_priority?
+    object.sr_priority
   end
 
   TopicList.preloaded_custom_fields << "sr_priority"
