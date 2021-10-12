@@ -24,30 +24,30 @@ after_initialize do
     end
   end
 
-  add_to_class(:topic, :get_sr_topic_fields) do
-    self.custom_fields['sr_topic_fields']
+  add_to_class(:topic, :get_sr_fields) do
+    self.custom_fields['sr_fields']
   end
 
-  add_to_serializer(:topic_view, :sr_topic_fields) do
-    object.topic.get_sr_topic_fields
+  add_to_serializer(:topic_view, :sr_fields) do
+    object.topic.get_sr_fields
   end
 
-  add_to_serializer(:listable_topic, :sr_topic_fields) do
-    object.get_sr_topic_fields
+  add_to_serializer(:listable_topic, :sr_fields) do
+    object.get_sr_fields
   end
 
-  add_to_serializer(:topic_list_item, :sr_topic_fields) do
-    object.get_sr_topic_fields
+  add_to_serializer(:topic_list_item, :sr_fields) do
+    object.get_sr_fields
   end
 
-  Post.add_permitted_post_create_param("sr_topic_fields")
-  Topic.register_custom_field_type("sr_topic_fields", :json)
-  TopicList.preloaded_custom_fields << "sr_topic_fields"
-  CategoryList.preloaded_topic_custom_fields << "sr_topic_fields"
-  Search.preloaded_topic_custom_fields << "sr_topic_fields"
-  PostRevisor.track_topic_field("sr_topic_fields".to_sym) do |tc, tf|
-    tc.record_change("sr_topic_fields", tc.topic.custom_fields["sr_topic_fields"], tf)
-    tc.topic.custom_fields["sr_topic_fields"] = tf
+  Post.plugin_permitted_create_params["sr_fields"] = StarRocksPlugin
+  Topic.register_custom_field_type("sr_fields", :json)
+  TopicList.preloaded_custom_fields << "sr_fields"
+  CategoryList.preloaded_topic_custom_fields << "sr_fields"
+  Search.preloaded_topic_custom_fields << "sr_fields"
+  PostRevisor.track_topic_field("sr_fields".to_sym) do |tc, tf|
+    tc.record_change("sr_fields", tc.topic.custom_fields["sr_fields"], tf)
+    tc.topic.custom_fields["sr_fields"] = tf
   end
   
   require_dependency "application_controller"
