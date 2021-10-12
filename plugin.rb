@@ -44,7 +44,10 @@ after_initialize do
   TopicList.preloaded_custom_fields << "sr_topic_fields"
   CategoryList.preloaded_topic_custom_fields << "sr_topic_fields"
   Search.preloaded_topic_custom_fields << "sr_topic_fields"
-
+  PostRevisor.track_topic_field("sr_topic_fields".to_sym) do |tc, tf|
+    tc.record_change("sr_topic_fields", tc.topic.custom_fields["sr_topic_fields"], tf)
+    tc.topic.custom_fields["sr_topic_fields"] = tf
+  end
   
   require_dependency "application_controller"
   class StarRocksPlugin::ActionsController < ::ApplicationController
