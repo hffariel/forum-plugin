@@ -24,26 +24,40 @@ after_initialize do
     end
   end
 
-  add_to_class(:topic, :get_sr_topic_priority) do 
-    return '' if custom_fields.key?('sr_topic_priority')
-    custom_fields['sr_topic_priority']
+  add_to_class(:topic, :get_sr_topic_fields) do
+    if self.custom_fields['sr_topic_fields']
+      if self.custom_fields['sr_topic_fields'].is_a?(String)
+        begin
+          JSON.parse(self.custom_fields['sr_topic_fields'])
+        rescue JSON::ParserError => e
+          puts e.message
+        end
+      elsif self.custom_fields['sr_topic_fields'].is_a?(Hash)
+        self.custom_fields['sr_topic_fields']
+      else
+        nil
+      end
+    else
+      nil
+    end
   end
 
-  add_to_serializer(:topic_view, :sr_topic_priority) do
-    topic.get_sr_topic_priority
+  add_to_serializer(:topic_view, :sr_topic_fields) do
+    topic.get_sr_topic_fields
   end
 
-  add_to_serializer(:listable_topic, :sr_topic_priority) do
-    object.get_sr_topic_priority
+  add_to_serializer(:listable_topic, :sr_topic_fields) do
+    object.get_sr_topic_fields
   end
 
-  add_to_serializer(:topic_list_item, :sr_topic_priority) do
-    object.get_sr_topic_priority
+  add_to_serializer(:topic_list_item, :sr_topic_fields) do
+    object.get_sr_topic_fields
   end
 
-  TopicList.preloaded_custom_fields << "sr_topic_priority"
-  CategoryList.preloaded_topic_custom_fields << "sr_topic_priority"
-  Search.preloaded_topic_custom_fields << "sr_topic_priority"
+  Topic.register_custom_field_type('location', :json)
+  TopicList.preloaded_custom_fields << "sr_topic_fields"
+  CategoryList.preloaded_topic_custom_fields << "sr_topic_fields"
+  Search.preloaded_topic_custom_fields << "sr_topic_fields"
 
   
   require_dependency "application_controller"
