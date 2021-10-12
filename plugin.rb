@@ -40,7 +40,7 @@ after_initialize do
     object.get_sr_topic_fields
   end
 
-  Topic.register_custom_field_type('sr_topic_fields', :json)
+  Topic.register_custom_field_type('sr_topic_fields', :string)
   TopicList.preloaded_custom_fields << "sr_topic_fields"
   CategoryList.preloaded_topic_custom_fields << "sr_topic_fields"
   Search.preloaded_topic_custom_fields << "sr_topic_fields"
