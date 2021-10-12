@@ -25,18 +25,8 @@ after_initialize do
   end
 
   add_to_class(:topic, :get_sr_topic_fields) do
-    if self.custom_fields['sr_topic_fields']
-      if self.custom_fields['sr_topic_fields'].is_a?(String)
-        begin
-          JSON.parse(self.custom_fields['sr_topic_fields'])
-        rescue JSON::ParserError => e
-          puts e.message
-        end
-      elsif self.custom_fields['sr_topic_fields'].is_a?(Hash)
-        self.custom_fields['sr_topic_fields']
-      else
-        nil
-      end
+    if custom_fields['sr_topic_fields']
+      custom_fields['sr_topic_fields']
     else
       nil
     end
@@ -54,7 +44,7 @@ after_initialize do
     object.get_sr_topic_fields
   end
 
-  Topic.register_custom_field_type('location', :json)
+  Topic.register_custom_field_type('sr_topic_fields', :json)
   TopicList.preloaded_custom_fields << "sr_topic_fields"
   CategoryList.preloaded_topic_custom_fields << "sr_topic_fields"
   Search.preloaded_topic_custom_fields << "sr_topic_fields"
