@@ -1,0 +1,4 @@
+plugins:
+  starrocks_plugin_enabled:
+    default: true
+    client: true

@@ -1,0 +1,3 @@
+en:
+  site_settings:
+    starrocks_plugin_enabled: "Enable StarRocksPlugin plugin"
