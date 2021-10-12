@@ -24,25 +24,26 @@ after_initialize do
     end
   end
 
-  add_to_class(:topic, :sr_priority?) do 
-    custom_fields['sr_priority'] == ''
+  add_to_class(:topic, :get_sr_topic_priority) do 
+    return '' if custom_fields.key?('sr_topic_priority')
+    custom_fields['sr_topic_priority']
   end
 
-  add_to_serializer(:topic_view, :sr_priority) do
-    topic.sr_priority
+  add_to_serializer(:topic_view, :sr_topic_priority) do
+    topic.get_sr_topic_priority
   end
 
-  add_to_serializer(:listable_topic, :sr_priority) do
-    object.sr_priority
+  add_to_serializer(:listable_topic, :sr_topic_priority) do
+    object.get_sr_topic_priority
   end
 
-  add_to_serializer(:topic_list_item, :sr_priority) do
-    object.sr_priority
+  add_to_serializer(:topic_list_item, :sr_topic_priority) do
+    object.get_sr_topic_priority
   end
 
-  TopicList.preloaded_custom_fields << "sr_priority"
-  CategoryList.preloaded_topic_custom_fields << "sr_priority"
-  Search.preloaded_topic_custom_fields << "sr_priority"
+  TopicList.preloaded_custom_fields << "sr_topic_priority"
+  CategoryList.preloaded_topic_custom_fields << "sr_topic_priority"
+  Search.preloaded_topic_custom_fields << "sr_topic_priority"
 
   
   require_dependency "application_controller"
