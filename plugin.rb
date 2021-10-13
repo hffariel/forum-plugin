@@ -47,7 +47,7 @@ after_initialize do
   
   require_dependency "application_controller"
   class StarRocksPlugin::StarRocksController < ::ApplicationController
-    requires_plugin PLUGIN_NAME
+  
     def set_fields
       if guardian.is_staff?
         render json: {
