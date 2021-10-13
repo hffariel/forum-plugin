@@ -46,19 +46,19 @@ after_initialize do
   Search.preloaded_topic_custom_fields << "sr_fields"
   
   require_dependency "application_controller"
-  class StarRocksPlugin::StarRocksController < ::ApplicationController
+  class StarRocksPlugin::StarrocksController < ::ApplicationController
   
     def set_fields
-      # if guardian.is_staff?
-      #   render json: {
-      #     "message": "No privilege."
-      #   }
-      #   return true
-      # end
-      # post = Post.find(params[:id].to_i)
-      # topic = post.topic
-      # topic.custom_fields["sr_fields"] = params[:sr_fields].to_h
-      # topic.save!
+      if guardian.is_staff?
+        render json: {
+          "message": "No privilege."
+        }
+        return true
+      end
+      post = Post.find(params[:id].to_i)
+      topic = post.topic
+      topic.custom_fields["sr_fields"] = params[:sr_fields].to_h
+      topic.save!
       render json: success_json
     end
   end
