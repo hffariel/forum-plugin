@@ -20,12 +20,6 @@ export default {
           return results
         }
         if (this.topic.sr_fields.priority) {
-          results.push({
-            openTag: "div",
-            closeTag: "div",
-            title: 'test',
-            icon: "far-square",
-          });
         }
         return results;
       }),
