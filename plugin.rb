@@ -29,44 +29,46 @@ after_initialize do
   end
 
   add_to_serializer(:topic_view, :sr_fields) do
-    object.topic
+    object.topic.get_sr_fields
   end
 
   add_to_serializer(:listable_topic, :sr_fields) do
-    object
+    object.get_sr_fields
   end
 
   add_to_serializer(:topic_list_item, :sr_fields) do
-    object
+    object.get_sr_fields
   end
 
-  def enabled?
-    true
-  end
-
-  add_permitted_post_create_param(:sr_fields)
   Topic.register_custom_field_type("sr_fields", :json)
   TopicList.preloaded_custom_fields << "sr_fields"
   CategoryList.preloaded_topic_custom_fields << "sr_fields"
   Search.preloaded_topic_custom_fields << "sr_fields"
   
   require_dependency "application_controller"
-  class StarRocksPlugin::ActionsController < ::ApplicationController
+  class StarRocksPlugin::StarRocksController < ::ApplicationController
     requires_plugin PLUGIN_NAME
-
-    before_action :ensure_logged_in
-
-    def list
+    def set_fields
+      if guardian.is_staff?
+        render json: {
+          "message": "No privilege."
+        }
+        return true
+      end
+      post = Post.find(params[:id].to_i)
+      topic = post.topic
+      topic.custom_fields["sr_fields"] = params[:sr_fields].to_h
+      topic.save!
       render json: success_json
     end
   end
 
   StarRocksPlugin::Engine.routes.draw do
-    get "/list" => "actions#list"
+    post "/set-fields" => "starrocks#set_fields"
   end
 
   Discourse::Application.routes.append do
-    mount ::StarRocksPlugin::Engine, at: "/starrocks-plugin"
+    mount ::StarRocksPlugin::Engine, at: "starrocks"
   end
   
 end
