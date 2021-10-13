@@ -24,31 +24,31 @@ after_initialize do
     end
   end
 
-  add_to_class(:topic, :get_sr_fields1) do
-    self.custom_fields['sr_fields1']
+  add_to_class(:topic, :get_sr_fields) do
+    self.custom_fields['sr_fields']
   end
 
-  add_to_serializer(:topic_view, :sr_fields1) do
-    object.topic.get_sr_fields1
+  add_to_serializer(:topic_view, :sr_fields) do
+    object.topic.get_sr_fields
   end
 
-  add_to_serializer(:listable_topic, :sr_fields1) do
-    object.get_sr_fields1
+  add_to_serializer(:listable_topic, :sr_fields) do
+    object.get_sr_fields
   end
 
-  add_to_serializer(:topic_list_item, :sr_fields1) do
-    object.get_sr_fields1
+  add_to_serializer(:topic_list_item, :sr_fields) do
+    object.get_sr_fields
   end
 
-  Post.plugin_permitted_create_params[:sr_fields1] = { plugin: self, type: :string }
-  Post.plugin_permitted_create_params["sr_fields1"] = { plugin: self, type: :string }
-  Topic.register_custom_field_type("sr_fields1", :json)
-  TopicList.preloaded_custom_fields << "sr_fields1"
-  CategoryList.preloaded_topic_custom_fields << "sr_fields1"
-  Search.preloaded_topic_custom_fields << "sr_fields1"
-  PostRevisor.track_topic_field("sr_fields1".to_sym) do |tc, tf|
-    tc.record_change("sr_fields1", tc.topic.custom_fields["sr_fields1"], tf)
-    tc.topic.custom_fields["sr_fields1"] = tf
+  Post.plugin_permitted_create_params[:sr_fields] = { plugin: self, type: :string }
+  Post.plugin_permitted_create_params["sr_fields"] = { plugin: self, type: :string }
+  Topic.register_custom_field_type("sr_fields", :json)
+  TopicList.preloaded_custom_fields << "sr_fields"
+  CategoryList.preloaded_topic_custom_fields << "sr_fields"
+  Search.preloaded_topic_custom_fields << "sr_fields"
+  PostRevisor.track_topic_field("sr_fields".to_sym) do |tc, tf|
+    tc.record_change("sr_fields", tc.topic.custom_fields["sr_fields"], tf)
+    tc.topic.custom_fields["sr_fields"] = tf
   end
   
   require_dependency "application_controller"
