@@ -40,7 +40,8 @@ after_initialize do
     object.get_sr_fields
   end
 
-  add_permitted_post_create_param(:sr_fields)
+  Post.plugin_permitted_create_params[:sr_fields] = { plugin: self, type: :string }
+  Post.plugin_permitted_create_params["sr_fields"] = { plugin: self, type: :string }
   Topic.register_custom_field_type("sr_fields", :json)
   TopicList.preloaded_custom_fields << "sr_fields"
   CategoryList.preloaded_topic_custom_fields << "sr_fields"
