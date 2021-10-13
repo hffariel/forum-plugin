@@ -49,7 +49,7 @@ after_initialize do
   class StarRocksPlugin::StarrocksController < ::ApplicationController
   
     def set_fields
-      if !guardian.is_api?
+      if !is_api?
         render json: {
           "message": "No privilege."
         }
