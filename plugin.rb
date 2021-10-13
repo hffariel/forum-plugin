@@ -29,15 +29,15 @@ after_initialize do
   end
 
   add_to_serializer(:topic_view, :sr_fields) do
-    object.topic.get_sr_fields
+    object.topic
   end
 
   add_to_serializer(:listable_topic, :sr_fields) do
-    object.get_sr_fields
+    object
   end
 
   add_to_serializer(:topic_list_item, :sr_fields) do
-    object.get_sr_fields
+    object
   end
 
   def enabled?
