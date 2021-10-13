@@ -49,16 +49,16 @@ after_initialize do
   class StarRocksPlugin::StarRocksController < ::ApplicationController
   
     def set_fields
-      if guardian.is_staff?
-        render json: {
-          "message": "No privilege."
-        }
-        return true
-      end
-      post = Post.find(params[:id].to_i)
-      topic = post.topic
-      topic.custom_fields["sr_fields"] = params[:sr_fields].to_h
-      topic.save!
+      # if guardian.is_staff?
+      #   render json: {
+      #     "message": "No privilege."
+      #   }
+      #   return true
+      # end
+      # post = Post.find(params[:id].to_i)
+      # topic = post.topic
+      # topic.custom_fields["sr_fields"] = params[:sr_fields].to_h
+      # topic.save!
       render json: success_json
     end
   end
