@@ -56,6 +56,7 @@ after_initialize do
       #   return true
       # end
       post = Post.find(params[:id].to_i)
+      params[:sr_fields].permit!
       topic = post.topic
       topic.custom_fields["sr_fields"] = params[:sr_fields].to_h
       topic.save!
