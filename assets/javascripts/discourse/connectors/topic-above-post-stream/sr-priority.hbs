@@ -1,1 +1,5 @@
-<span>aaa</span>
+{{#if topic.sr_fields }}
+  {{#if topic.sr_fields.priority }}
+  <span>{{topic.sr_fields.priority}}</span>
+  {{/if}}
+{{/if}}
